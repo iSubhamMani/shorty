@@ -1,6 +1,6 @@
 # Shorty
 
-Shorty is a simple URL shortener service built using AWS Lambda, API Gateway, DynamoDB, and the Serverless Framework.
+Shorty is a simple URL shortener service built using **AWS Lambda**, **API Gateway**, **DynamoDB**, and the **Serverless Framework**.
 
 ## Features
 
