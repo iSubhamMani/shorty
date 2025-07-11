@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import axios from "axios";
 
 const URLShortener = () => {
   const [url, setUrl] = useState("");
@@ -13,26 +14,40 @@ const URLShortener = () => {
 
   const handleShorten = async () => {
     if (!url.trim()) {
-      toast("Please enter a valid URL");
+      toast.error("Please enter a valid URL");
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      const shortCode = Math.random().toString(36).substring(2, 8);
-      setShortenedUrl(`https://shorty.app/${shortCode}`);
+    try {
+      const response = await axios.post(
+        "https://shorty.subhammani.xyz/shorten",
+        {
+          longUrl: url.trim(),
+        }
+      );
+      if (response.status !== 200) {
+        throw new Error("Failed to shorten URL");
+      }
+
+      const data = response.data;
+      if (data.shortUrl) {
+        setShortenedUrl(data.shortUrl);
+        setUrl("");
+      }
+    } catch {
+      toast.error("Error shortening URL");
+    } finally {
       setIsLoading(false);
-      toast("URL shortened successfully!");
-    }, 1500);
+    }
   };
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shortenedUrl);
-      toast("Copied to clipboard");
-    } catch (err) {
+      toast.success("Copied to clipboard");
+    } catch {
       toast.error("Failed to copy URL");
     }
   };
@@ -69,7 +84,7 @@ const URLShortener = () => {
               YOUR SHORTENED URL:
             </p>
             <div className="flex items-center gap-2 mb-4">
-              <code className="text-lg font-mono bg-white px-3 py-2 border-2 border-black flex-1 break-all">
+              <code className="text-sm sm:text-base md:text-lg font-mono bg-white px-3 py-2 border-2 border-black flex-1 break-all">
                 {shortenedUrl}
               </code>
             </div>
@@ -77,7 +92,7 @@ const URLShortener = () => {
               <Button
                 onClick={copyToClipboard}
                 variant="outline"
-                className="flex-1 h-12 font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200"
+                className="cursor-pointer text-sm md:text-base flex-1 h-12 font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200"
               >
                 <Copy className="w-4 h-4 mr-2" />
                 COPY
@@ -85,7 +100,7 @@ const URLShortener = () => {
               <Button
                 onClick={openUrl}
                 variant="outline"
-                className="flex-1 h-12 font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200"
+                className="cursor-pointer text-sm md:text-base flex-1 h-12 font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 VISIT
