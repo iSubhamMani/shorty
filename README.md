@@ -14,12 +14,14 @@ Shorty is a simple URL shortener service built using **AWS Lambda**, **API Gatew
 - **API Gateway**: Exposes RESTful endpoints
 - **DynamoDB**: Stores URL mappings
 - **Serverless Framework**: Simplifies deployment and infrastructure management
+- **Next.Js**: For the client app
 
 ## Getting Started
 
 1. Clone the repository
-2. Install dependencies: `npm install`
-3. Deploy with Serverless: `serverless deploy`
+2. Navigate to backend folder: `cd backend`
+3. Install dependencies: `npm install`
+4. Deploy with Serverless: `serverless deploy`
 
 ## Usage
 
