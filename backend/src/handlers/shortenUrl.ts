@@ -7,7 +7,14 @@ export const handler: APIGatewayProxyHandler = async (event) => {
   const longUrl = body.longUrl;
 
   if (!longUrl)
-    return { statusCode: 400, body: "Missing longUrl in request body." };
+    return {
+      statusCode: 400,
+      body: "Missing longUrl in request body.",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "https://app.shorty.subhammani.xyz",
+      },
+    };
 
   const shortCode = nanoid(7);
   await putUrl(shortCode, longUrl);
@@ -17,5 +24,9 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     body: JSON.stringify({
       shortUrl: `https://${event.headers.Host}/${shortCode}`,
     }),
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "https://app.shorty.subhammani.xyz",
+    },
   };
 };

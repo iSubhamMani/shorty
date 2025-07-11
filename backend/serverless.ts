@@ -28,7 +28,7 @@ const config: AWS = {
             method: "post",
             path: "shorten",
             cors: {
-              origin: "*",
+              origin: "https://app.shorty.subhammani.xyz",
               headers: ["Content-Type"],
               allowCredentials: false,
             },
