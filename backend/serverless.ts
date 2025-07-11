@@ -6,7 +6,7 @@ const config: AWS = {
   plugins: ["serverless-domain-manager"],
   provider: {
     name: "aws",
-    runtime: "nodejs18.x",
+    runtime: "nodejs22.x",
     region: "ap-south-1",
     environment: {
       URLS_TABLE: "Urls",
